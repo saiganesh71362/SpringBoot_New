@@ -169,7 +169,7 @@ public class UserManagementServiceImpl  implements UserManagementService
 		boolean sendMail = emailUtils.sendMail(entity.getEmail(), subject, body);
 
 		if (sendMail) {
-			return "Password sent to your registered mail";
+			return "Password sent to your registered mail once Check your Mail";
 		}
 		return null;
 	}
