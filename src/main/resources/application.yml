@@ -1,0 +1,32 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    password: pganesh
+#    url: jdbc:mysql://localhost:3306/project
+#    username: root
+#  application:
+#   name: UserManagement
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant-path-matcher
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: saiganesh71362@gmail.com
+#    password: dnvm doow tbec wrfq
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            debug: true
+#server:
+#  port: 8084
+#springdoc:
+#  swagger-ui:
+#     path: swagger-ui.html
