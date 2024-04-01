@@ -16,6 +16,6 @@ public interface UserManagementService
 	 public boolean deleteByUserId(Integer userId);
 	 public boolean changeAccountStatus(Integer userId, String status);
 	 public String login(Login login);
-	 public String forgotPassword(String email);
+	 public String forgotPwd(String email);
 
 }

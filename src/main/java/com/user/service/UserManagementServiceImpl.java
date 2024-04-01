@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.user.appconstants.AppConstants;
 import com.user.binding.ActivateAccount;
 import com.user.binding.Login;
 import com.user.binding.User;
@@ -38,8 +39,8 @@ public class UserManagementServiceImpl  implements UserManagementService
 		entity.setPassword(generateRandomPassword());
 		UserMaster save = userMasterRepository.save(entity);
 		
-		String subject = "Your Registration is Success";
-		String fileName = "REG-EMAIL-BODY.txt";
+		String subject = AppConstants.YOUR_REG_SUCESS;
+		String fileName = AppConstants.REG_EMAIL_BODY;
 		String body = readEmailBody(entity.getFullName(), entity.getPassword(), fileName);
 		emailUtils.sendMail(user.getEmail(), subject, body);
 
@@ -113,24 +114,38 @@ public class UserManagementServiceImpl  implements UserManagementService
 		}
 		return status;
 	}
-
+	
 	@Override
-	public boolean changeAccountStatus(Integer userId, String status)
-	{
-		Optional<UserMaster> findUser = userMasterRepository.findById(userId);
-		if(findUser.isPresent())
-		{
-			UserMaster userMasterData = findUser.get();
-			userMasterData.setAccountStatus(status);
-			return true;
-		}
-		return false;
+	public boolean changeAccountStatus(Integer userId, String status) {
+	    Optional<UserMaster> findUser = userMasterRepository.findById(userId);
+	    if (findUser.isPresent()) {
+	        UserMaster userMasterData = findUser.get();
+	        userMasterData.setAccountStatus(status);
+	        // Save the updated userMasterData to the database
+	        userMasterRepository.save(userMasterData);
+	        return true;
+	    }
+	    return false;
 	}
+
+
+//	@Override
+//	public boolean changeAccountStatus(Integer userId, String status)
+//	{
+//		Optional<UserMaster> findUser = userMasterRepository.findById(userId);
+//		if(findUser.isPresent())
+//		{
+//			UserMaster userMasterData = findUser.get();
+//			userMasterData.setAccountStatus(status);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	@Override
 	public String login(Login login)
 	{
-		String msg = "";
+		String msg = AppConstants.EMPTY_STR;
 		
 		UserMaster userMaster = new UserMaster();
 		userMaster.setEmail(login.getEmail());
@@ -140,45 +155,84 @@ public class UserManagementServiceImpl  implements UserManagementService
 		List<UserMaster> allUsers = userMasterRepository.findAll();
 		if(allUsers.isEmpty())
 		{
-			msg = "Invalid Credentials";
+			msg = AppConstants.INVALID_CREDENTIALS;
 		}
 		else
 		{
 			UserMaster userMasterData = allUsers.get(0);
 			if(userMasterData.getAccountStatus().equals("Active"))
 			{
-				msg = "Login SuccessFully";
+				msg = AppConstants.LOGIN_SCCESS;
 			}
 			else
 			{
-				msg = "Account Not Activated";
+				msg = AppConstants.ACCOUNT_NOT_ACTIVATED;
 			}
 		}
 		return msg;
 	}
-
-	@Override
-	public String forgotPassword(String email) {
-		UserMaster entity = userMasterRepository.findByEmail(email);
-		if (entity == null) {
-			return "Invalid Email ID";
-		}
-		String subject = "Forgot Password";
-		String fileName = "RECOVER-PWD-BODY.txt";
-		String body = readEmailBody(email, entity.getPassword(), fileName);
-		boolean sendMail = emailUtils.sendMail(entity.getEmail(), subject, body);
-
-		if (sendMail) {
-			return "Password sent to your registered mail once Check your Mail";
-		}
-		return null;
-	}
 	
+	@Override
+	public String forgotPwd(String email) {
+	    UserMaster entity = userMasterRepository.findByEmail(email);
+	    if (entity == null) {
+	        return AppConstants.INVALID_EMAIL_ID;
+	    }
+	    String subject = AppConstants.FORGOT_PWD_MSG;
+	    String body = AppConstants.HI_MSG + entity.getFullName() + AppConstants.NEW_LINE
+	                + AppConstants.YOUR_PWD_IS + entity.getPassword() + AppConstants.NEW_LINE
+	                + AppConstants.MSG
+	                + AppConstants.THANKAS
+	                + AppConstants.ADMIN_TEAM;
+
+	    boolean sendMail = emailUtils.sendMail(entity.getEmail(), subject, body);
+
+	    if (sendMail) {
+	        return AppConstants.PASSWORD_SEND_SUCCESS;
+	    } else {
+	        return AppConstants.PASSWORD_SEND_FAILD;
+	    }
+	}
+
+	
+//	@Override
+//	public String forgotPwd(String email) {
+//		UserMaster entity = userMasterRepository.findByEmail(email);
+//		if (entity == null) {
+//			return "Invalid Email ID";
+//		}
+//		String subject = "Forgot Password";
+//		String fileName = "RECOVER-PWD-BODY.txt";
+//		String body = readEmailBody(email, entity.getPassword(), fileName);
+//		boolean sendMail = emailUtils.sendMail(entity.getEmail(), subject, body);
+//
+//		if (sendMail) {
+//			return "Password sent to your registered mail";
+//		}
+//		return null;
+//	}
+
+//	@Override
+//	public String forgotPassword(String email) {
+//		UserMaster entity = userMasterRepository.findByEmail(email);
+//		if (entity == null) {
+//			return "Invalid Email ID";
+//		}
+//		String subject = "Forgot Password";
+//		String fileName = "RECOVER-PWD-BODY.txt";
+//		String body = readEmailBody(email, entity.getPassword(), fileName);
+//		boolean sendMail = emailUtils.sendMail(entity.getEmail(), subject, body);
+//
+//		if (sendMail) {
+//			return "Password sent to your registered mail";
+//		}
+//		return null;
+//	}
 	
 	
 	private static String generateRandomPassword()
 	{
-		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+"0123456789"+"abcdefghijklmnopqrstuvwxyz"+"@#$%&*";
+		String AlphaNumericString = AppConstants.PASSWORD_DATA;
 		StringBuilder sb = new StringBuilder();
 		for(int i=0;i<=6;i++)
 		{
@@ -239,7 +293,7 @@ public class UserManagementServiceImpl  implements UserManagementService
     // read  mail
     
     private String readEmailBody(String fullName, String password, String fileName) {
-        String url = ""; // You might want to set the URL here
+        String url = AppConstants.EMPTY_STR; // You might want to set the URL here
         String mailBody = null;
         try {
             FileReader fr = new FileReader(fileName);

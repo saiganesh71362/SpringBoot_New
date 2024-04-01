@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user.appconstants.AppConstants;
 import com.user.binding.ActivateAccount;
 import com.user.binding.Login;
 import com.user.binding.User;
@@ -33,12 +34,11 @@ public class UserManagmentController {
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		boolean newUser = userManagementService.addUser(user);
 		if (newUser) {
-			new ResponseEntity<>("New User Add Success Fully", HttpStatus.CREATED);
+			 return new ResponseEntity<>(AppConstants.ADD_NEW_USER, HttpStatus.CREATED);
 
 		} else {
-			new ResponseEntity<>("User Not Creatde", HttpStatus.INTERNAL_SERVER_ERROR);
+			 return new ResponseEntity<>(AppConstants.NO_USER_ADD, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return null;
 
 	}
 
@@ -47,9 +47,9 @@ public class UserManagmentController {
 		boolean activateAccounts = userManagementService.activateAccount(activateAccount);
 
 		if (activateAccounts) {
-			return new ResponseEntity<>("Account Activated Success Fully", HttpStatus.OK);
+			return new ResponseEntity<>(AppConstants.ACTIVATE_ACCOUNT, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Invalid email or temp password", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(AppConstants.INVALID_EMIAL_PASSWORD, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -72,11 +72,11 @@ public class UserManagmentController {
 	{
 		boolean deleteByUserId = userManagementService.deleteByUserId(userId);
 		if(deleteByUserId) {
-			return new ResponseEntity<>("User Delete SuccessFully",HttpStatus.OK);
+			return new ResponseEntity<>(AppConstants.USER_DELETED,HttpStatus.OK);
 		}
 		else
 		{
-			return new ResponseEntity<>("User Delete Faild",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(AppConstants.USER_DELETED_FAILD,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -87,11 +87,11 @@ public class UserManagmentController {
 		boolean changeAccountStatus = userManagementService.changeAccountStatus(userId,status);
 		if(changeAccountStatus) 
 		{
-			return new ResponseEntity<>("Status Changed Success Fully",HttpStatus.OK);
+			return new ResponseEntity<>(AppConstants.USER_STATUS_CHANGED,HttpStatus.OK);
 		}
 		else
 		{
-			return new ResponseEntity<>("Status Faild ",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(AppConstants.USER_STATUS_CHANGED_FAILD,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class UserManagmentController {
     
 	@PostMapping("/forgotpwd/{email}")
 	public ResponseEntity<String> forgotPwd(@PathVariable String email){
-		String status = userManagementService.forgotPassword(email);
+		String status = userManagementService.forgotPwd(email);
 		return new ResponseEntity<String> (status, HttpStatus.OK);
 	}
 	
