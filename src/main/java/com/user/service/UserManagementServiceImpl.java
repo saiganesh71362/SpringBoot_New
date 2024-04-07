@@ -71,13 +71,13 @@ public class UserManagementServiceImpl  implements UserManagementService
 	}
 
 	@Override
-	public List<User> getAllUsers() 
+	public List<UserMaster> getAllUsers() 
 	{
 		List<UserMaster> allUsersEntities = userMasterRepository.findAll();
-		List<User> allUsers= new ArrayList<>();
+		List<UserMaster> allUsers= new ArrayList<>();
 		for(UserMaster userMaster : allUsersEntities)
 		{
-			User user = new User();
+			UserMaster user = new UserMaster();
 			BeanUtils.copyProperties(userMaster, user);
 			allUsers.add(user);
 		}

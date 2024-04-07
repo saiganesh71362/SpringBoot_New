@@ -18,6 +18,7 @@ import com.user.appconstants.AppConstants;
 import com.user.binding.ActivateAccount;
 import com.user.binding.Login;
 import com.user.binding.User;
+import com.user.entity.UserMaster;
 import com.user.service.UserManagementService;
 
 @RestController
@@ -54,8 +55,8 @@ public class UserManagmentController {
 	}
 
 	@GetMapping("/getAllUsers")
-	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> allUsers = userManagementService.getAllUsers();
+	public ResponseEntity<List<UserMaster>> getAllUsers() {
+		List<UserMaster> allUsers = userManagementService.getAllUsers();
 
 		return new ResponseEntity<>(allUsers, HttpStatus.OK);
 	}
