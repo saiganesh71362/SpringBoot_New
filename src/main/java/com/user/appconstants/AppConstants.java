@@ -6,7 +6,7 @@ public class AppConstants
 
 	public static final String ADD_NEW_USER = "New User Add Success Fully";
 	
-	public static final String NO_USER_ADD = "User Not Creatde";
+	public static final String NO_USER_ADD = "User Not Created";
 	
 	public static final String ACTIVATE_ACCOUNT = "Account Activated Success Fully";
 	
@@ -14,11 +14,11 @@ public class AppConstants
 	
 	public static final String USER_DELETED = "User Delete SuccessFully";
 	
-	public static final String USER_DELETED_FAILD = "User Delete Faild";
+	public static final String USER_DELETED_FAILD = "User Delete Failed";
 	
-	public static final String USER_STATUS_CHANGED = "Status Changed Success Fully";
+	public static final String USER_STATUS_CHANGED = " User Status Changed Success Fully";
 	
-	public static final String USER_STATUS_CHANGED_FAILD = "Status Faild ";
+	public static final String USER_STATUS_CHANGED_FAILD = " User Status Changed Failed ";
 	
 	// forgot password
 	
