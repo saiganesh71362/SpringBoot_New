@@ -16,9 +16,9 @@ public class AppConstants
 	
 	public static final String USER_DELETED_FAILD = "User Delete Faild";
 	
-	public static final String USER_STATUS_CHANGED = "Status Changed Success Fully";
+	public static final String USER_STATUS_CHANGED = " User Status Changed Success Fully";
 	
-	public static final String USER_STATUS_CHANGED_FAILD = "Status Faild ";
+	public static final String USER_STATUS_CHANGED_FAILD = " User Status Changed Faild ";
 	
 	// forgot password
 	
