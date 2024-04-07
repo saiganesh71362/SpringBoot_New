@@ -48,11 +48,11 @@ public class AppConstants
     
     public static final String ACCOUNT_NOT_ACTIVATED = "Account Not Activated";
     
-    public static final String LOGIN_SCCESS = "Login SuccessFully";
+    public static final String LOGIN_SCCESS = "Login User SuccessFully";
     
     public static final String ACTIVE = "Active";
     
-    public static final String INVALID_CREDENTIALS = "Invalid Credentials";
+    public static final String INVALID_CREDENTIALS = "Invalid  User Credentials";
     
     // ADD USER
     
