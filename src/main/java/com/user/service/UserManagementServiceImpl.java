@@ -16,6 +16,8 @@ import com.user.binding.ActivateAccount;
 import com.user.binding.Login;
 import com.user.binding.User;
 import com.user.entity.UserMaster;
+import com.user.excepionhandle.NoUserIdException;
+import com.user.excepionhandle.UserNotFoundException;
 import com.user.repository.UserMasterRepository;
 import com.user.utils.EmailUtils;
 
@@ -97,24 +99,46 @@ public class UserManagementServiceImpl  implements UserManagementService
 			return user;
 		}
 		
-		return null;
+		else
+		{
+	        throw new NoUserIdException("User not found with ID: " + userId);
+
+		}
 	}
 
-	@Override
-	public boolean deleteByUserId(Integer userId)
-	{
-		boolean status = false;
-		try {
-		userMasterRepository.deleteById(userId);
-		status = true;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return status;
-	}
+//	@Override
+//	public boolean deleteByUserId(Integer userId)
+//	{
+//		boolean status = false;
+//		try {
+//		userMasterRepository.deleteById(userId);
+//		status = true;
+//		}
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//		return status;
+//	}
 	
+	@Override
+	public boolean deleteByUserId(Integer userId) {
+	    Optional<UserMaster> findUser = userMasterRepository.findById(userId);
+	    if (findUser.isPresent()) {
+	        try {
+	            userMasterRepository.deleteById(userId);
+	            return true;
+	        } catch (Exception e) {
+	            // You can log the exception or handle it in a way that suits your application
+	            System.err.println("Error deleting user with ID: " + userId);
+	            e.printStackTrace();
+	            return false;
+	        }
+	    } else {
+	        throw new UserNotFoundException("User with ID " + userId + " does not exist. Deletion failed.");
+	    }
+	}
+
 	@Override
 	public boolean changeAccountStatus(Integer userId, String status) {
 	    Optional<UserMaster> findUser = userMasterRepository.findById(userId);
